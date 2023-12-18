@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/lukasz/Dokumenty/FPGA/Snake/Snake_tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="numeric_std" />
+            <top_module name="snake_tb" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_textio" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="textio" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="21" />
+   <wvobject fp_name="/snake_tb/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/tick" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tick</obj_property>
+      <obj_property name="ObjectShortName">tick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/transit_cnt" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">transit_cnt[2:0]</obj_property>
+      <obj_property name="ObjectShortName">transit_cnt[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/part" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">part[2:0]</obj_property>
+      <obj_property name="ObjectShortName">part[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/dir" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dir[1:0]</obj_property>
+      <obj_property name="ObjectShortName">dir[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/next_dir" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">next_dir[1:0]</obj_property>
+      <obj_property name="ObjectShortName">next_dir[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x[6:0]</obj_property>
+      <obj_property name="ObjectShortName">x[6:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/y" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y[5:0]</obj_property>
+      <obj_property name="ObjectShortName">y[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/tail_dir" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">tail_dir[1:0]</obj_property>
+      <obj_property name="ObjectShortName">tail_dir[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/x_head" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x_head[6:0]</obj_property>
+      <obj_property name="ObjectShortName">x_head[6:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/y_head" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y_head[5:0]</obj_property>
+      <obj_property name="ObjectShortName">y_head[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/x_tail" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x_tail[6:0]</obj_property>
+      <obj_property name="ObjectShortName">x_tail[6:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/y_tail" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y_tail[5:0]</obj_property>
+      <obj_property name="ObjectShortName">y_tail[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/leftright" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">leftright[1:0]</obj_property>
+      <obj_property name="ObjectShortName">leftright[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/push" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">push</obj_property>
+      <obj_property name="ObjectShortName">push</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/clk_period" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">clk_period</obj_property>
+      <obj_property name="ObjectShortName">clk_period</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/push_snake" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">push_snake</obj_property>
+      <obj_property name="ObjectShortName">push_snake</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/push_self" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">push_self</obj_property>
+      <obj_property name="ObjectShortName">push_self</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/pop_snake" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pop_snake</obj_property>
+      <obj_property name="ObjectShortName">pop_snake</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/snake_size" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">snake_size[9:0]</obj_property>
+      <obj_property name="ObjectShortName">snake_size[9:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>

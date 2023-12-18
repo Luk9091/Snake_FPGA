@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/lukasz/Dokumenty/FPGA/Snake/VGA_tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="vga_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="9" />
+   <wvobject fp_name="/vga_tb/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/vga_tb/reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/vga_tb/h_sync" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">h_sync</obj_property>
+      <obj_property name="ObjectShortName">h_sync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/vga_tb/v_sync" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">v_sync</obj_property>
+      <obj_property name="ObjectShortName">v_sync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/vga_tb/rgb" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rgb[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rgb[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/vga_tb/uut/h_cnt" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">h_cnt[9:0]</obj_property>
+      <obj_property name="ObjectShortName">h_cnt[9:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/vga_tb/uut/v_cnt" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">v_cnt[9:0]</obj_property>
+      <obj_property name="ObjectShortName">v_cnt[9:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/vga_tb/x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x[9:0]</obj_property>
+      <obj_property name="ObjectShortName">x[9:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/vga_tb/y" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y[9:0]</obj_property>
+      <obj_property name="ObjectShortName">y[9:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>

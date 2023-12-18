@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/lukasz/Dokumenty/FPGA/Snake/Top_tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_textio" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="textio" />
+            <top_module name="top_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="23" />
+   <wvobject fp_name="/top_tb/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/softreset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">softreset</obj_property>
+      <obj_property name="ObjectShortName">softreset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/leftright" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">leftright[1:0]</obj_property>
+      <obj_property name="ObjectShortName">leftright[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/led" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">led[7:0]</obj_property>
+      <obj_property name="ObjectShortName">led[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/h_sync" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">h_sync</obj_property>
+      <obj_property name="ObjectShortName">h_sync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/v_sync" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">v_sync</obj_property>
+      <obj_property name="ObjectShortName">v_sync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/rgb" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rgb[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rgb[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/tick" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">tick</obj_property>
+      <obj_property name="ObjectShortName">tick</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/x_head" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x_head[6:0]</obj_property>
+      <obj_property name="ObjectShortName">x_head[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/y_head" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y_head[5:0]</obj_property>
+      <obj_property name="ObjectShortName">y_head[5:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x[6:0]</obj_property>
+      <obj_property name="ObjectShortName">x[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/sub_x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">sub_x[3:0]</obj_property>
+      <obj_property name="ObjectShortName">sub_x[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/y" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y[5:0]</obj_property>
+      <obj_property name="ObjectShortName">y[5:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/sub_y" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">sub_y[3:0]</obj_property>
+      <obj_property name="ObjectShortName">sub_y[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/dir" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">dir</obj_property>
+      <obj_property name="ObjectShortName">dir</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/next_dir" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">next_dir</obj_property>
+      <obj_property name="ObjectShortName">next_dir</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/write_address" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">write_address[12:0]</obj_property>
+      <obj_property name="ObjectShortName">write_address[12:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/read_address" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">read_address[12:0]</obj_property>
+      <obj_property name="ObjectShortName">read_address[12:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/write_en_segment" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">write_en_segment</obj_property>
+      <obj_property name="ObjectShortName">write_en_segment</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/place_segment" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">place_segment</obj_property>
+      <obj_property name="ObjectShortName">place_segment</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/head_draw" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">head_draw</obj_property>
+      <obj_property name="ObjectShortName">head_draw</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_tb/uut/drawing/segment_draw" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">segment_draw</obj_property>
+      <obj_property name="ObjectShortName">segment_draw</obj_property>
+   </wvobject>
+</wave_config>

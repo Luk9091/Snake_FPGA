@@ -1,0 +1,7 @@
+*
+!.gitignore
+!*.vhd
+!*.ucf
+!*.wcfg
+!*.md
+!./Img/

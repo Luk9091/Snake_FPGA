@@ -1,0 +1,32 @@
+CONFIG VCCAUX = "3.3";
+
+
+# Clock 100MHz
+NET "CLK"		LOC = P126 | iostandard = LVCMOS33 | PERIOD = 100MHz | SLEW = FAST;
+#NET "CLK" LOC = P126 | iostandard = LVCMOS33;
+#TIMESPEC TS_CLK = PERIOD "CLK" 100 MHz HIGH 50%;
+
+# LEDs
+NET "LED[0]"	LOC = P119 | iostandard = LVCMOS33 | DRIVE = 8 | SLEW = FAST;
+NET "LED[1]"	LOC = P118 | iostandard = LVCMOS33 | DRIVE = 8 | SLEW = FAST;
+NET "LED[2]"	LOC = P117 | iostandard = LVCMOS33 | DRIVE = 8 | SLEW = FAST;
+NET "LED[3]"	LOC = P116 | iostandard = LVCMOS33 | DRIVE = 8 | SLEW = FAST;
+NET "LED[4]"	LOC = P115 | iostandard = LVCMOS33 | DRIVE = 8 | SLEW = FAST;
+NET "LED[5]"	LOC = P114 | iostandard = LVCMOS33 | DRIVE = 8 | SLEW = FAST;
+NET "LED[6]"	LOC = P112 | iostandard = LVCMOS33 | DRIVE = 8 | SLEW = FAST;
+NET "LED[7]"	LOC = P111 | iostandard = LVCMOS33 | DRIVE = 8 | SLEW = FAST;
+
+# Push button
+NET "Reset" 	LOC = P124	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = SLOW | PULLUP;
+NET "leftRight[0]"  LOC = P123	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "leftRight[1]"  LOC = P121	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "SoftReset" LOC = P120	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;# | CLOCK_DEDICATED_ROUTE = FALSE;
+
+
+# Others:
+NET "RGB[2]"	LOC = P34 | iostandard = LVCMOS33 | DRIVE = 12 | SLEW = FAST;
+NET "RGB[1]"	LOC = P32 | iostandard = LVCMOS33 | DRIVE = 12 | SLEW = FAST;
+NET "RGB[0]"	LOC = P29 | iostandard = LVCMOS33 | DRIVE = 12 | SLEW = FAST;
+
+NET "H_sync"	LOC = P26 | iostandard = LVCMOS33 | DRIVE = 12 | SLEW = FAST;
+NET "V_sync"	LOC = P23 | iostandard = LVCMOS33 | DRIVE = 12 | SLEW = FAST;
