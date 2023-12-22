@@ -11,11 +11,13 @@ use IEEE.Std_Logic_Arith.all;
 
 entity Snake is
 	GENERIC (
-			COUNT_TO_TICK: integer := 100_000_000/(40*16);
+			COUNT_TO_TICK: integer := 100_000_000/(40);
+			WIDTH	  :		integer := 40;
+			HEIGHT  :		integer := 30;
 			START_X : 		integer := 40/2;
 			START_Y :		integer := 30/2;
 			START_DIR:		std_logic_vector(1 downto 0) := "00";
-			TRANSIT_BYTE:  integer := 2
+			TRANSIT_BYTE:  integer := 3
 	);
 	Port ( 
 		CLK 			: in   STD_LOGIC;
@@ -24,7 +26,8 @@ entity Snake is
 		y 				: in   STD_LOGIC_VECTOR(5 downto 0);
 		leftRight	: in   STD_LOGIC_VECTOR(1 downto 0);
 		Part 			: out  STD_LOGIC_VECTOR(2 downto 0);
-		push			: in   STD_LOGIC
+		push			: in   STD_LOGIC;
+		destroy		: in	 STD_LOGIC := '0'
 	);
 end Snake;
 
@@ -41,9 +44,9 @@ architecture Behavioral of Snake is
 	signal x_tail: std_logic_vector(6 downto 0) := conv_std_logic_vector(START_X, 7);
 	signal y_tail: std_logic_vector(5 downto 0) := conv_std_logic_vector((START_Y+1), 6);
 	
-	signal head_draw:    std_logic := '0';
-	signal segment_draw: std_logic := '0';
-	signal tail_draw:    std_logic := '0';
+	signal head_draw	  : std_logic := '0';
+	signal segment_draw : std_logic := '0';
+	signal tail_draw	  : std_logic := '0';
 	
 	signal dir     : Direction_t := START_DIR;
 	signal next_dir: Direction_t := START_DIR;
@@ -83,9 +86,12 @@ architecture Behavioral of Snake is
 	end component;
 	
 	signal snake_size: std_logic_vector(9 downto 0);
-	signal push_snake: std_logic := '0';
 	signal push_self : std_logic := '0';
+
+	signal push_snake: std_logic := '0';
 	signal pop_snake : std_logic := '0';
+	signal push_latch: std_logic := '0';
+	signal pop_latch : std_logic := '0';
 	
 	signal Tick : std_logic := '0';
 
@@ -114,7 +120,7 @@ begin
 	transit: process (Tick, Reset)
 	begin
 		if Reset = '0' then
-			transit_cnt <= (others => '0');
+			transit_cnt <= (others => '1');
 		elsif rising_edge(Tick) then
 			transit_cnt <= transit_cnt + 1;
 		end if;
@@ -149,12 +155,12 @@ begin
 			push_snake <= '0';
 			pop_snake  <= '0';
 		elsif falling_edge(Tick) then
-			if transit_cnt = move_head then
+			if transit_cnt = move_head and destroy = '0' then
 				case next_dir is
-					when UP    => if y_head >  "00000" then y_head <= y_head - 1; end if;
-					when DOWN  => if y_head <  "11101" then y_head <= y_head + 1; end if;
-					when LEFT  => if x_head > "000000" then x_head <= x_head - 1; end if;
-					when RIGHT => if x_head < "100111" then x_head <= x_head + 1; end if;
+					when UP    => if y_head >       0   then y_head <= y_head - 1; end if;
+					when DOWN  => if y_head <  HEIGHT-1 then y_head <= y_head + 1; end if;
+					when LEFT  => if x_head >       0   then x_head <= x_head - 1; end if;
+					when RIGHT => if x_head <   WIDTH-1 then x_head <= x_head + 1; end if;
 					when others => NULL;
 				end case;
 				dir <= next_dir;
@@ -165,7 +171,7 @@ begin
 				
 				push_snake <= '1';
 				pop_snake  <= '0';
-			elsif transit_cnt = move_tail then
+			elsif transit_cnt = move_tail or destroy /= '0' then
 					push_snake <= '0';
 					pop_snake <= '1';
 			
@@ -174,15 +180,16 @@ begin
 					write_address( 6 downto 0) <= x_tail;
 					write_address(12 downto 7) <= y_tail;
 					
-					if push_self = '0' then
-					case tail_dir is
-						when UP    => if y_tail >  "00000" then y_tail <= y_tail - 1; end if;
-						when DOWN  => if y_tail <  "11101" then y_tail <= y_tail + 1; end if;
-						when LEFT  => if x_tail > "000000" then x_tail <= x_tail - 1; end if;
-						when RIGHT => if x_tail < "100111" then x_tail <= x_tail + 1; end if;
-						when others => NULL;
-					end case;
+					if push_self = '0' and snake_size /= 0 then
+						case tail_dir is
+							when UP    => if y_tail >  	  0   then y_tail <= y_tail - 1; end if;
+							when DOWN  => if y_tail <  HEIGHT-1 then y_tail <= y_tail + 1; end if;
+							when LEFT  => if x_tail >  	  0   then x_tail <= x_tail - 1; end if;
+							when RIGHT => if x_tail <   WIDTH-1 then x_tail <= x_tail + 1; end if;
+							when others => NULL;
+						end case;
 					end if;
+--			elsif transit_cnt = move_tail + 2 then
 			else
 				push_snake <= '0';
 				pop_snake  <= '0';
@@ -210,7 +217,7 @@ begin
 	change_dir: process (Tick, Reset)
 	begin
 		if Reset = '0' then
-			next_dir <= UP;
+			next_dir <= START_DIR;
 		elsif falling_edge(Tick) then
 			case dir is
 				when UP => 
@@ -223,21 +230,18 @@ begin
 					case leftRight is
 						when "10"   => next_dir <= LEFT;
 						when "01"   => next_dir <= RIGHT;
-						when "00" 	=> next_dir <= dir;
 						when others => NULL;
 					end case;
 				when LEFT => 
 					case leftRight is
 						when "10"   => next_dir <= UP;
 						when "01"   => next_dir <= DOWN;
-						when "00" 	=> next_dir <= dir;
 						when others => NULL;
 					end case;
 				when RIGHT => 
 					case leftRight is
 						when "10"   => next_dir <= DOWN;
 						when "01"   => next_dir <= UP;
-						when "00" 	=> next_dir <= dir;
 						when others => NULL;
 					end case;
 				when others => next_dir <= next_dir;
@@ -323,15 +327,21 @@ begin
 		);
 		
 
+	latch: process(Tick, Reset)
+	begin
+		push_latch <= push_snake;
+		pop_latch <= pop_snake;
+	end process;
+
 	tail_moving: Head_tail_FIFO
 		PORT MAP(
 			CLK 			=> Tick,
 			RST 			=> not Reset,
-			DIN 			=> next_dir,
+			DIN 			=> dir,
 			DOUT			=> tail_dir,
 			DATA_COUNT 	=> snake_size,
-			WR_EN 		=> push_snake,
-			RD_EN 		=>  pop_snake and not push_self
+			WR_EN 		=> push_latch,
+			RD_EN 		=> pop_latch and not push_self
 		);
 
 	Part(0) <= head_draw;
