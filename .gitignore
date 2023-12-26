@@ -6,3 +6,7 @@
 !*.wcfg
 !*.md
 !*.png
+
+!*.coe
+!*.xco
+!*.xise

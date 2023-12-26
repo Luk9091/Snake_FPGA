@@ -11,13 +11,13 @@ use IEEE.Std_Logic_Arith.all;
 
 entity Snake is
 	GENERIC (
-			COUNT_TO_TICK: integer := 100_000_000/(40);
+			COUNT_TO_TICK: integer := 100_000_000/(100);
 			WIDTH	  :		integer := 40;
 			HEIGHT  :		integer := 30;
 			START_X : 		integer := 40/2;
 			START_Y :		integer := 30/2;
 			START_DIR:		std_logic_vector(1 downto 0) := "00";
-			TRANSIT_BYTE:  integer := 3
+			TRANSIT_BYTE:  integer := 4
 	);
 	Port ( 
 		CLK 			: in   STD_LOGIC;
@@ -27,31 +27,32 @@ entity Snake is
 		leftRight	: in   STD_LOGIC_VECTOR(1 downto 0);
 		Part 			: out  STD_LOGIC_VECTOR(2 downto 0);
 		push			: in   STD_LOGIC;
-		destroy		: in	 STD_LOGIC := '0'
+		max_size		: out	 STD_LOGIC_VECTOR(12 downto 0) := (others => '0')
 	);
 end Snake;
 
 architecture Behavioral of Snake is
 	subtype Direction_t is std_logic_vector(1 downto 0);
-	constant UP 	: Direction_t := "00";
-	constant DOWN	: Direction_t := "01";
-	constant LEFT	: Direction_t := "10";
-	constant RIGHT	: Direction_t := "11";
+	constant UP				: Direction_t := "00";
+	constant DOWN			: Direction_t := "01";
+	constant LEFT			: Direction_t := "10";
+	constant RIGHT			: Direction_t := "11";
 	
-	signal x_head: std_logic_vector(6 downto 0) := conv_std_logic_vector(START_X, 7);
-	signal y_head: std_logic_vector(5 downto 0) := conv_std_logic_vector(START_Y, 6);
+	signal x_head			: std_logic_vector(6 downto 0) := conv_std_logic_vector(START_X, 7);
+	signal y_head			: std_logic_vector(5 downto 0) := conv_std_logic_vector(START_Y, 6);
+	signal read_conflict : std_logic;
 	
-	signal x_tail: std_logic_vector(6 downto 0) := conv_std_logic_vector(START_X, 7);
-	signal y_tail: std_logic_vector(5 downto 0) := conv_std_logic_vector((START_Y+1), 6);
+	signal x_tail			: std_logic_vector(6 downto 0) := conv_std_logic_vector(START_X, 7);
+	signal y_tail			: std_logic_vector(5 downto 0) := conv_std_logic_vector(START_Y, 6);
 	
-	signal head_draw	  : std_logic := '0';
-	signal segment_draw : std_logic := '0';
-	signal tail_draw	  : std_logic := '0';
+	signal head_draw		: std_logic := '0';
+	signal segment_draw	: std_logic := '0';
+	signal tail_draw		: std_logic := '0';
 	
-	signal dir     : Direction_t := START_DIR;
-	signal next_dir: Direction_t := START_DIR;
-	signal tail_dir: Direction_t := START_DIR;
-	signal transit_cnt: std_logic_vector(TRANSIT_BYTE-1 downto 0) := (others => '0');
+	signal dir     		: Direction_t := START_DIR;
+	signal next_dir		: Direction_t := START_DIR;
+	signal tail_dir		: Direction_t := START_DIR;
+	signal transit_cnt	: std_logic_vector(TRANSIT_BYTE-1 downto 0) := (others => '1');
 	
 	component Snake_segment_memory 
 		PORT(
@@ -63,6 +64,7 @@ architecture Behavioral of Snake is
 			CLKB		: in  std_logic;
 			DinA		: in  std_logic_vector(0 downto 0);
 			DinB		: in  std_logic_vector(0 downto 0);
+			DoutA		: out std_logic_vector(0 downto 0);
 			DoutB		: out std_logic_vector(0 downto 0)
 		);
 	end component;
@@ -79,25 +81,24 @@ architecture Behavioral of Snake is
 			RST 			: in  std_logic;
 			DIN 			: in  std_logic_vector(1 downto 0);
 			DOUT			: out std_logic_vector(1 downto 0);
-			DATA_COUNT	: out std_logic_vector(9 downto 0);
+			DATA_COUNT	: out std_logic_vector(12 downto 0);
 			RD_EN			: in  std_logic;
 			WR_EN			: in  std_logic
 		);
 	end component;
 	
-	signal snake_size: std_logic_vector(9 downto 0);
-	signal push_self : std_logic := '0';
+	signal snake_size	: std_logic_vector(12 downto 0);
+	signal push_self 	: std_logic := '0';
 
-	signal push_snake: std_logic := '0';
-	signal pop_snake : std_logic := '0';
-	signal push_latch: std_logic := '0';
-	signal pop_latch : std_logic := '0';
+	signal push_snake	: std_logic := '0';
+	signal pop_snake 	: std_logic := '0';
 	
-	signal Tick : std_logic := '0';
+	signal Tick 		: std_logic := '0';
+	signal destroy		: std_logic := '0';
 
-	constant move_head : integer := 1;
+	constant move_head : integer := 0;
+	constant place_head: integer := 1;
 	constant move_tail : integer := 2;
-
 begin
 
 
@@ -148,7 +149,7 @@ begin
 			dir <= START_DIR;
 
 			x_tail <= conv_std_logic_vector(START_X, 7);
-			y_tail <= conv_std_logic_vector((START_Y+1), 6);
+			y_tail <= conv_std_logic_vector(START_Y, 6);
 			
 			place_segment <= '0';
 			write_en_segment <= '0';
@@ -156,31 +157,44 @@ begin
 			pop_snake  <= '0';
 		elsif falling_edge(Tick) then
 			if transit_cnt = move_head and destroy = '0' then
-				case next_dir is
-					when UP    => if y_head >       0   then y_head <= y_head - 1; end if;
-					when DOWN  => if y_head <  HEIGHT-1 then y_head <= y_head + 1; end if;
-					when LEFT  => if x_head >       0   then x_head <= x_head - 1; end if;
-					when RIGHT => if x_head <   WIDTH-1 then x_head <= x_head + 1; end if;
-					when others => NULL;
-				end case;
-				dir <= next_dir;
-				write_en_segment <= '1';
 				place_segment <= '1';
+				write_en_segment <= '0';
+					
 				write_address( 6 downto 0) <= x_head;
 				write_address(12 downto 7) <= y_head;
 				
+				
+			elsif transit_cnt = place_head and destroy = '0' then
+				case next_dir is
+					when UP    	=> if y_head >       0   then y_head <= y_head - 1; end if;
+					when DOWN  	=> if y_head <  HEIGHT-1 then y_head <= y_head + 1; end if;
+					when LEFT  	=> if x_head >       0   then x_head <= x_head - 1; end if;
+					when RIGHT 	=> if x_head <   WIDTH-1 then x_head <= x_head + 1; end if;
+					when others => NULL;
+				end case;
+				dir <= next_dir;
+				write_address( 6 downto 0) <= x_head;
+				write_address(12 downto 7) <= y_head;
+				
+				write_en_segment <= '1';
+				place_segment <= '1';
+				
 				push_snake <= '1';
 				pop_snake  <= '0';
-			elsif transit_cnt = move_tail or destroy /= '0' then
+			
+			
+elsif transit_cnt = move_tail or destroy = '1' then
 					push_snake <= '0';
 					pop_snake <= '1';
 			
-					write_en_segment <= '1';
-					place_segment <= '0';
-					write_address( 6 downto 0) <= x_tail;
-					write_address(12 downto 7) <= y_tail;
-					
-					if push_self = '0' and snake_size /= 0 then
+											
+					if push_self = '0' and snake_size > 0	 then					
+						write_en_segment <= '1';
+						place_segment <= '0';
+
+						write_address( 6 downto 0) <= x_tail;
+						write_address(12 downto 7) <= y_tail;
+						
 						case tail_dir is
 							when UP    => if y_tail >  	  0   then y_tail <= y_tail - 1; end if;
 							when DOWN  => if y_tail <  HEIGHT-1 then y_tail <= y_tail + 1; end if;
@@ -189,27 +203,26 @@ begin
 							when others => NULL;
 						end case;
 					end if;
---			elsif transit_cnt = move_tail + 2 then
 			else
 				push_snake <= '0';
 				pop_snake  <= '0';
 				write_en_segment <= '0';
 			end if;
-			
-			
-			
-			
-			--if x_head = "101000" then
-			--	x_head <= (others => '0');
-			--elsif x_head = "111111" then
-			--	x_head <= "100111";
-			--end if;
-			
-			--if y_head = "11110" then
-			--	y_head <= (others => '0');
-			--elsif y_head = "11111" then
-			--	y_head <= "11101";
-			--end if;
+		end if;
+	end process;
+	
+	self_destruct: process(Tick, Reset)
+	begin
+		if Reset = '0' then
+			destroy <= '0';
+			max_size <= (others => '0');
+		elsif rising_edge(Tick) then
+			if transit_cnt = move_head and destroy = '0' and push_self = '0' then
+					if read_conflict = '1' then
+						destroy <= '1';
+						max_size <= snake_size + 1;
+					end if;
+			end if;
 		end if;
 	end process;
 	
@@ -218,7 +231,7 @@ begin
 	begin
 		if Reset = '0' then
 			next_dir <= START_DIR;
-		elsif falling_edge(Tick) then
+		elsif rising_edge(Tick) then
 			case dir is
 				when UP => 
 					case leftRight is
@@ -257,24 +270,6 @@ begin
 		elsif rising_edge(CLK) then
 			if x = x_head and y = y_head then
 				head_draw <= '1';
---				case dir is
---					when UP =>
---						if sub_y >= not transit_cnt then
---							head_draw <= '1';
---						end if;
---					when DOWN =>
---						if sub_y <= transit_cnt then
---							head_draw <= '1';
---						end if;
---					when LEFT =>
---						if sub_x >= not transit_cnt then
---							head_draw <= '1';
---						end if;
---					when RIGHT =>
---						if transit_cnt >= sub_x then
---							head_draw <= '1';
---						end if;
---				end case;
 			else
 				head_draw <= '0';
 			end if;
@@ -323,15 +318,9 @@ begin
 			CLKB 		=> clk,
 			DinA(0)	=> place_segment,
 			DinB(0) 	=> '0',
+			DoutA(0) => read_conflict,
 			DoutB(0)	=> segment_draw
 		);
-		
-
-	latch: process(Tick, Reset)
-	begin
-		push_latch <= push_snake;
-		pop_latch <= pop_snake;
-	end process;
 
 	tail_moving: Head_tail_FIFO
 		PORT MAP(
@@ -340,8 +329,8 @@ begin
 			DIN 			=> dir,
 			DOUT			=> tail_dir,
 			DATA_COUNT 	=> snake_size,
-			WR_EN 		=> push_latch,
-			RD_EN 		=> pop_latch and not push_self
+			WR_EN 		=> push_snake,
+			RD_EN 		=> pop_snake and not push_self
 		);
 
 	Part(0) <= head_draw;

@@ -47,8 +47,8 @@ ARCHITECTURE behavior OF VGA_tb IS
          H_sync : INOUT  std_logic;
          RGB 	 : OUT    std_logic_vector(2 downto 0);
 			Color	 : IN     std_logic_vector(2 downto 0);
-			x		 : OUT    std_logic_vector(5 downto 0);
-			y		 : OUT    std_logic_vector(4 downto 0)
+			x		 : OUT    std_logic_vector(9 downto 0);
+			y		 : OUT    std_logic_vector(8 downto 0)
         );
     END COMPONENT;
     
@@ -64,8 +64,8 @@ ARCHITECTURE behavior OF VGA_tb IS
 
  	--Outputs
    signal RGB : std_logic_vector(2 downto 0);
-	signal x	  : std_logic_vector(5 downto 0);
-	signal y	  : std_logic_vector(4 downto 0);
+	signal x	  : std_logic_vector(9 downto 0);
+	signal y	  : std_logic_vector(8 downto 0);
 
 
    -- Clock period definitions

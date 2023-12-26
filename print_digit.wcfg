@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/lukasz/Dokumenty/FPGA/Snake/Print_Digit_tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="numeric_std" />
+            <top_module name="print_digit_tb" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="textio" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="13" />
+   <wvobject fp_name="/print_digit_tb/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data[12:0]</obj_property>
+      <obj_property name="ObjectShortName">data[12:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/uut/digits" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">digits[15:0]</obj_property>
+      <obj_property name="ObjectShortName">digits[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x[6:0]</obj_property>
+      <obj_property name="ObjectShortName">x[6:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/y" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y[5:0]</obj_property>
+      <obj_property name="ObjectShortName">y[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/uut/x_to_display" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">x_to_display</obj_property>
+      <obj_property name="ObjectShortName">x_to_display</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/uut/y_to_display" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y_to_display[3:0]</obj_property>
+      <obj_property name="ObjectShortName">y_to_display[3:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/uut/ones_to_display" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ones_to_display[7:0]</obj_property>
+      <obj_property name="ObjectShortName">ones_to_display[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/uut/tens_to_display" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">tens_to_display[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tens_to_display[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/uut/hundreds_to_display" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">hundreds_to_display[7:0]</obj_property>
+      <obj_property name="ObjectShortName">hundreds_to_display[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/uut/thousands_to_display" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">thousands_to_display[7:0]</obj_property>
+      <obj_property name="ObjectShortName">thousands_to_display[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/print_digit_tb/rgb" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rgb[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rgb[2:0]</obj_property>
+   </wvobject>
+</wave_config>

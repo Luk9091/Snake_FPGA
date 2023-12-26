@@ -3,7 +3,7 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="/home/lukasz/Dokumenty/FPGA/Snake/Snake_tb_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="/home/lukasz/Dokumenty/FPGA/Snake/Snake_tb_isim_beh1.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="numeric_std" />
             <top_module name="snake_tb" />
@@ -15,7 +15,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="21" />
+   <WVObjectSize size="27" />
    <wvobject fp_name="/snake_tb/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -25,8 +25,8 @@
       <obj_property name="ObjectShortName">tick</obj_property>
    </wvobject>
    <wvobject fp_name="/snake_tb/uut/transit_cnt" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">transit_cnt[2:0]</obj_property>
-      <obj_property name="ObjectShortName">transit_cnt[2:0]</obj_property>
+      <obj_property name="ElementShortName">transit_cnt[1:0]</obj_property>
+      <obj_property name="ObjectShortName">transit_cnt[1:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/snake_tb/reset" type="logic" db_ref_id="1">
@@ -37,6 +37,10 @@
       <obj_property name="ElementShortName">part[2:0]</obj_property>
       <obj_property name="ObjectShortName">part[2:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/snake_tb/uut/read_conflict" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">read_conflict</obj_property>
+      <obj_property name="ObjectShortName">read_conflict</obj_property>
+   </wvobject>
    <wvobject fp_name="/snake_tb/uut/dir" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">dir[1:0]</obj_property>
       <obj_property name="ObjectShortName">dir[1:0]</obj_property>
@@ -44,6 +48,10 @@
    <wvobject fp_name="/snake_tb/uut/next_dir" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">next_dir[1:0]</obj_property>
       <obj_property name="ObjectShortName">next_dir[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/tail_dir" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">tail_dir[1:0]</obj_property>
+      <obj_property name="ObjectShortName">tail_dir[1:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/snake_tb/x" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">x[6:0]</obj_property>
@@ -55,19 +63,19 @@
       <obj_property name="ObjectShortName">y[5:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/snake_tb/uut/tail_dir" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">tail_dir[1:0]</obj_property>
-      <obj_property name="ObjectShortName">tail_dir[1:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/snake_tb/uut/x_head" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">x_head[6:0]</obj_property>
       <obj_property name="ObjectShortName">x_head[6:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#00ffff</obj_property>
    </wvobject>
    <wvobject fp_name="/snake_tb/uut/y_head" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">y_head[5:0]</obj_property>
       <obj_property name="ObjectShortName">y_head[5:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#00ffff</obj_property>
    </wvobject>
    <wvobject fp_name="/snake_tb/uut/x_tail" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">x_tail[6:0]</obj_property>
@@ -87,10 +95,6 @@
       <obj_property name="ElementShortName">push</obj_property>
       <obj_property name="ObjectShortName">push</obj_property>
    </wvobject>
-   <wvobject fp_name="/snake_tb/clk_period" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">clk_period</obj_property>
-      <obj_property name="ObjectShortName">clk_period</obj_property>
-   </wvobject>
    <wvobject fp_name="/snake_tb/uut/push_snake" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">push_snake</obj_property>
       <obj_property name="ObjectShortName">push_snake</obj_property>
@@ -107,5 +111,29 @@
       <obj_property name="ElementShortName">snake_size[9:0]</obj_property>
       <obj_property name="ObjectShortName">snake_size[9:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/write_address" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">write_address[12:0]</obj_property>
+      <obj_property name="ObjectShortName">write_address[12:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/write_en_segment" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">write_en_segment</obj_property>
+      <obj_property name="ObjectShortName">write_en_segment</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/place_segment" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">place_segment</obj_property>
+      <obj_property name="ObjectShortName">place_segment</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/destroy" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">destroy</obj_property>
+      <obj_property name="ObjectShortName">destroy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/segment_memory/dina" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dina[0:0]</obj_property>
+      <obj_property name="ObjectShortName">dina[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/snake_tb/uut/segment_memory/wea" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">wea[0:0]</obj_property>
+      <obj_property name="ObjectShortName">wea[0:0]</obj_property>
    </wvobject>
 </wave_config>

@@ -2,6 +2,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 use ieee.std_logic_unsigned.all;
+use ieee.Std_Logic_Arith.all;
  
 ENTITY Map_controler_tb IS
 END Map_controler_tb;
@@ -13,7 +14,6 @@ ARCHITECTURE behavior OF Map_controler_tb IS
     COMPONENT Map_controler
     PORT(
 			CLK 	: in  STD_LOGIC;
-			Tick	: in  STD_LOGIC;
 			Reset : in  STD_LOGIC;
 			x 		: in  STD_LOGIC_VECTOR (6 downto 0);
 			sub_x : in  STD_LOGIC_VECTOR (3 downto 0);
@@ -49,7 +49,6 @@ BEGIN
 	-- Instantiate the Unit Under Test (UUT)
    uut: Map_controler PORT MAP (
           CLK => CLK,
-			 Tick => Tick,
           Reset => Reset,
 			 leftRight => leftRight,
           x => x,
@@ -67,40 +66,23 @@ BEGIN
 		CLK <= '1';
 		wait for CLK_period/2;
    end process;
-	TICK_process :process
-		variable  tick_cnt : integer := 0;
-	begin
-		tick_cnt := tick_cnt + 1;
-		wait for CLK_period;
-		if tick_cnt = 2 then
-			tick_cnt := 0;
-			Tick <= not Tick;
-		end if;
-	end process;
  
 
    -- Stimulus process
    stim_proc: process
    begin		
-		Reset <= '0';
+		x <= conv_std_logic_vector(20, 7);
 		wait for clk_period;
-		Reset <= '1';
-		wait for 200*clk_period;
-		Reset <= '0';
-		wait for 200*clk_period;
-		Reset <= '1';
-		wait for 80*clk_period;
-		leftRight <= "10";
-		wait for 2*clk_period;
+
       wait;
    end process;
 
 	y_loop: process
 	begin
-		x <= (others => '0');
+		y <= (others => '0');
 		for i in 0 to 39 loop
 			wait for clk_period;
-			x <= x + 1;
+			y <= y + 1;
 		end loop;
 	end process;
 

@@ -18,7 +18,7 @@ ARCHITECTURE behavior OF Apple_generator_tb IS
          Reset : IN  std_logic;
          canDraw : IN  std_logic;
          x : IN  std_logic_vector(6 downto 0);
-         y : IN  std_logic_vector(6 downto 0);
+         y : IN  std_logic_vector(5 downto 0);
          apple : OUT  std_logic;
          done : OUT  std_logic
         );
@@ -30,7 +30,7 @@ ARCHITECTURE behavior OF Apple_generator_tb IS
    signal Reset : std_logic := '1';
    signal canDraw : std_logic := '0';
    signal x : std_logic_vector(6 downto 0) := (others => '0');
-   signal y : std_logic_vector(6 downto 0) := (others => '0');
+   signal y : std_logic_vector(5 downto 0) := (others => '0');
 
  	--Outputs
    signal apple : std_logic;

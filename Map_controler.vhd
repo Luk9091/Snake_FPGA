@@ -27,10 +27,12 @@ architecture Behavioral of Map_controler is
 			y 				: in   STD_LOGIC_VECTOR(5 downto 0);
 			leftRight	: in   STD_LOGIC_VECTOR(1 downto 0);
 			Part 			: out  STD_LOGIC_VECTOR(2 downto 0);
-			push			: in   STD_LOGIC
+			push			: in   STD_LOGIC;
+			max_size		: out  STD_LOGIC_VECTOR(12 downto 0)
 		);
 	end component;
 	signal drawPart: std_logic_vector (2 downto 0);
+	signal max_size: std_logic_vector(12 downto 0);
 	
 	
 	component Apple_generator
@@ -46,6 +48,21 @@ architecture Behavioral of Map_controler is
 	end component;
 	signal apple : std_logic;
 	signal push: std_logic;
+	
+	
+	
+	component Print_Digit
+		Port ( 
+			CLK 	: in  STD_LOGIC;
+			Reset : in  STD_LOGIC;
+			x 		: in  STD_LOGIC_VECTOR ( 6 downto 0);
+			y 		: in  STD_LOGIC_VECTOR ( 5 downto 0);
+			Data 	: in  STD_LOGIC_VECTOR (12 downto 0);
+			draw	: out STD_LOGIC
+		);
+	end component;
+	signal score_draw: std_logic := '0';
+	
 begin
 	eat_apple: process(CLK, Reset)
 	begin
@@ -59,6 +76,7 @@ begin
 			end if;
 		end if;
 	end process;
+	
 
 	snake_segments: Snake 
 		PORT MAP ( 
@@ -68,7 +86,8 @@ begin
 			y 				=> y,
 			leftRight	=> leftRight,
 			Part 			=> drawPart,
-			push 			=> push
+			push 			=> push,
+			max_size		=> max_size
 		);
 
 	apple_gen: Apple_generator
@@ -81,12 +100,26 @@ begin
 			apple 	=> apple
 		);
 
+
+	Score : Print_Digit
+		PORT MAP (
+			CLK 		=> CLK,
+			Reset 	=> Reset,
+			x 			=> x,
+			y			=> y,
+			Data 		=> max_size,
+			Draw 		=> score_draw
+		);
+
+
+
 -- Color selector MUX:
-	Color <= "000" when Reset = '0' else
+	Color <= "000" when Reset       = '0' else
+				"111" when score_draw  = '1' else
 				"001" when drawPart(0) = '1' else
-				"011" when drawPart(2) = '1' else
+				"111" when drawPart(2) = '1' else
 				"111" when drawPart(1) = '1' else
-				"100" when apple = '1' else
+				"100" when apple       = '1' else
 				"000";
 end Behavioral;
 

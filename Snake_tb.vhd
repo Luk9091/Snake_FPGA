@@ -12,37 +12,38 @@ ARCHITECTURE behavior OF Snake_tb IS
  
     COMPONENT Snake
 	 GENERIC(
-		COUNT_TO_TICK: integer;
-		START_X : integer;
-		START_Y : integer;
-		START_DIR: std_logic_vector(1 downto 0);
-		TRANSIT_BYTE : integer
+		COUNT_TO_TICK	: integer;
+		START_X 			: integer;
+		START_Y 			: integer;
+		START_DIR		: std_logic_vector(1 downto 0);
+		TRANSIT_BYTE 	: integer
 	 );
     PORT(
-         CLK : IN  std_logic;
-         Reset : IN  std_logic;
-         x : IN  std_logic_vector(6 downto 0);
-         y : IN  std_logic_vector(5 downto 0);
-         leftRight : IN  std_logic_vector(1 downto 0);
-         Part : OUT  std_logic_vector(2 downto 0);
-         push : IN  std_logic
+         CLK 			: IN  std_logic;
+         Reset 		: IN  std_logic;
+         x 				: IN  std_logic_vector(6 downto 0);
+         y 				: IN  std_logic_vector(5 downto 0);
+         leftRight 	: IN  std_logic_vector(1 downto 0);
+         Part 			: OUT  std_logic_vector(2 downto 0);
+         push 			: IN  std_logic
         );
     END COMPONENT;
     
 
    --Inputs
-   signal CLK : std_logic := '0';
-   signal Reset : std_logic := '1';
-   signal x : std_logic_vector(6 downto 0) := (others => '0');
-   signal y : std_logic_vector(5 downto 0) := (others => '0');
-   signal leftRight : std_logic_vector(1 downto 0) := (others => '0');
-   signal push : std_logic := '0';
+   signal CLK 			: std_logic := '1';
+   signal Reset 		: std_logic := '1';
+   signal x 			: std_logic_vector(6 downto 0) := (others => '0');
+   signal y 			: std_logic_vector(5 downto 0) := (others => '0');
+   signal leftRight 	: std_logic_vector(1 downto 0) := (others => '1');
+   signal push 		: std_logic := '0';
 
  	--Outputs
-   signal Part : std_logic_vector(2 downto 0);
+   signal Part 		: std_logic_vector(2 downto 0);
 
    -- Clock period definitions
    constant CLK_period : time := 10 ns;
+	constant TICK_period: time := 60 ns;
  
 BEGIN
  
@@ -50,9 +51,9 @@ BEGIN
    uut: Snake 
 	GENERIC MAP(
 		COUNT_TO_TICK => 2,
-		START_X => 1,
-		START_Y => 0,
-		START_DIR => "11",
+		START_X => 0,
+		START_Y => 4,
+		START_DIR => "00",
 		TRANSIT_BYTE => 2
 	)PORT MAP (
           CLK => CLK,
@@ -67,22 +68,20 @@ BEGIN
    -- Clock process definitions
    CLK_process :process
    begin
-		CLK <= '0';
 		wait for CLK_period/2;
-		CLK <= '1';
-		wait for CLK_period/2;
+		CLK <= not CLK;
    end process;
  
 
    -- Stimulus process
       stim_proc: process
 		begin		
-			Reset <= '0';
-			wait for clk_period;
+--			Reset <= '0';
+--			wait for clk_period;
 			Reset <= '1';
-			wait for 105*clk_period;
+			wait for 2*4*TICK_period;
 			push <= '1';
-			wait for clk_period;
+			wait for 6*4*TICK_period;
 			push <= '0';
 			wait for 200*clk_period;
 			Reset <= '0';
@@ -94,12 +93,16 @@ BEGIN
 			wait;
 		end process;
 
-		y_loop: process
+		xy_loop: process
 		begin
-			x <= (others => '0');
-			for i in 0 to 39 loop
-				wait for clk_period;
-				x <= x + 1;
+			y <= (others => '0');
+			for i in 0 to 5 loop
+				x <= (others => '0');
+				for j in 0 to 5 loop
+						wait for clk_period;
+						x <= x + 1;
+				end loop;
+				y <= y + 1;
 			end loop;
 		end process;
 
