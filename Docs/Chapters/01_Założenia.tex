@@ -1,0 +1,17 @@
+\section{Założenia projektowe}
+    \tab Poniższy projekt zakłada stworzenie układu cyfrowego do gry w Snake.
+    Gra będzie wyświetlana na monitorze wyposażonym w interface VGA.
+    \subsection{Sterowanie}
+        \tab Sterowanie odbywa się za pomocą dwóch przycisków,
+        informujących głowę węża czy skręcić w prawo czy w lewo.
+% 
+        Dodatkowo należy wyróżnić dodatkowe dwa przyciski resetujące:
+        \begin{itemize}
+            \item [--] reset główny -- przycisk resetujący wszystkie procesy układu włącznie z procesami sterującymi VGA.
+            \item [--] reset wewnętrzny -- restartuje wyłącznie stan gry.
+        \end{itemize}
+
+    \subsection{Wyświetlanie}
+        \tab Gra toczy się na planszy składającej się z $40x30$ kratek,
+        a wyświetlana w rozdzielczości $640x480$px.
+        Do monitora podłączone są trzy sygnały kolorów dające w sumie 8 kolorów.

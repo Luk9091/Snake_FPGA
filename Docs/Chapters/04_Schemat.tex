@@ -1,0 +1,79 @@
+\section{Opis całego układu}
+    \subsection{Schemat blokowy}
+        \begin{figure}[!ht]
+            \centering
+            \begin{circuitikz}
+                \draw
+                    (0,   0) node[draw, minimum width = 4cm, minimum height = 2cm](clk){Podział zegarów}
+                    (6,   0) node[draw, minimum width = 4cm, minimum height = 2cm](led){Animacja LED}
+                    (8,  -3) node[draw, minimum width = 4cm, minimum height = 2cm](vga){VGA}
+                    (4,  -7) node[draw, minimum width = 4cm, minimum height = 2cm](map){Kontroler mapy}
+                    (12, -7) node[draw, minimum width = 4cm, minimum height = 2cm](score){Wyświetlanie punktów}
+                    (7, -10) node[draw, minimum width = 4cm, minimum height = 2cm](snake){Wąż}
+                    (0, -7) node[draw, minimum width = 2cm, minimum height = 2cm, align=center](point){Generator\\punkow}
+                    (4, -14) node[draw, minimum width = 4cm, minimum height = 2cm, align=center](mem)  {Pamięć pozycji  \\ (ROM)}
+                    (10,-14) node[draw, minimum width = 4cm, minimum height = 2cm, align=center](fifo) {Pamięć kierunku \\ (FIFO)}
+                    (10.5, -9.5)node[and port, anchor=in 1, rotate = 90](score_en){}
+
+                    (led.east) to[short, -o, i=\ ] ++ (4, 0) node[right]{Leds}
+                    (0, -10) coordinate(turn) node[left, align=center]{Turn\\left/right} (turn) to[short, i=\ , o-] (snake.west)
+
+                    (clk.south) to[short] ++ (0, -2) to[short, i= 25MHz] (vga.west)
+                    (clk.east) to[short, i=8Hz] (led.west)
+                    % (clk.south) to[short] ++ (0, -6) to[short, i=100MHz, *-] (map.west)
+                    % (clk.south) to[short] ++ (0, -6) to[short, i=100MHz] ++ (0, -2)
+
+                    (map.south) to[short, i=XY] ++ (0, -1.25) -- ++ (1, 0)
+
+                    (point.east) to[short, i=XY] (map.west)
+                    (snake.north) ++ (-1.5, 0) to[short, i_=Draw] ++ (0, 1) 
+                    (snake.north) ++ (0, 0) to[short] ++ (0, 1.5) to[short, i<_=Push] ++(-1, 0)
+                    (snake.north) ++ (1, 0) to[short] ++ (0, 2.5) to[short, i<_=Destroy] ++(-2, 0)
+                    (snake.east) ++ (0, 0.5) to[short, i>_=Destroy] (score_en.in 1)
+                    (fifo.north) ++ (0.9, 0) to[short, i_=Score] (score_en.in 2)
+
+                    (vga) to[short, -*, i=XY] ++ (0, -2.5) coordinate(xy)
+                    (xy) -| (score.north)
+                    (xy) -| (map.north)
+
+                    (score.north) ++ (1, 0) to[short] ++ (0, 1) to[short, i_=Score] ++ (-3.5, 0) --++(0, 1)
+                    (map.north) ++ (-1, 0) to[short] ++ (0, 1) to[short, i=Color] ++ (3.5, 0) --++(0, 1)
+
+                    (snake.west) ++ (0, -0.75) to[short] ++ (-1, 0) coordinate(xy) to[short, i_=FILL] ++ (0, -2.25)
+                    % (xy) to[short, *-, i=\ ] ++(0, 2)
+                    (snake.south) ++ (-1.75, 0) to[short, i_=RW] ++ (0, -2)
+                    (mem.east) -- ++ (0.5, 0) to[short, l=XY] ++ (0, 3)
+
+                    (fifo.west)-- ++ (-.5, 0) to[short, a=Dir] ++ (0, 3)
+                    (snake.east) ++ (0, -.5) --++ (0.5, 0) to[short, i=RW] ++ (0, -2.5)
+
+
+                    (vga.east) ++ (0, 0.5) to[short, i=\ , -o] ++ (2, 0) node[right]{$H_{sync}$}
+                    (vga.east) ++ (0, 0.0) to[short, i=\ , -o] ++ (2, 0) node[right]{$V_{sync}$}
+                    (vga.east) ++ (0,-0.5) to[short, i=\ , -o] ++ (2, 0) node[right]{$RGB$}
+                ;
+            \end{circuitikz}
+            \renewcommand{\figurename}{Schemat}
+            \caption{Schemat blokowy całej gry}
+            \label{schematic:all_game}
+        \end{figure}
+
+        Na schemacie \ref{schematic:all_game}, przedstawiono uproszczony widok całego układu.
+        Do każdego z elementów do którego nie został dociągnięty żaden sygnał zegarowy domyślnie jest podłączony zegar główny $100MHz$.
+        Dodatkowo pamięci (pamięć pozycji oraz pamięć kierunku), zostały stworzone jako IP Core.
+
+        % \subsubsection{Opis wyprowadzeń}
+        \begin{table}[!ht]
+            \centering
+            \begin{tabular}{c | c}
+                Wejścia & Wyjścia\\\hline
+                & Leds[8]\\ 
+                Turn left/right[2]& $H_{sync}$, $V_{sync}$ \\
+                & $RGB$[3]
+
+            \end{tabular}
+            \caption{Opis wyprowadzeń}
+        \end{table}
+    % \subsection{Opis słowny}
+    \input{Chapters/04_Tabela}
+    \input{Chapters/04_Uwagi}

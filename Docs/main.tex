@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\usepackage{anyfontsize}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{polski}
+\usepackage{tabto}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{setspace}
+\usepackage{tabularx}
+
+\usepackage{graphicx}
+
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+\numberwithin{equation}{section}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks = true,
+    urlcolor=blue,
+    linkcolor= black
+}
+
+\usepackage{graphicx}
+\graphicspath{{../Img/}}
+
+\usepackage{titlesec}
+\titlelabel{\thetitle.\quad}
+% \AddToHook{cmd/section/before}{\clearpage}
+
+\usepackage[european, american currents, americanvoltages, RPvoltages, cute inductor]{circuitikz}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+\ctikzset{
+    logic ports=ieee,
+    logic ports/scale=0.7,
+}
+
+% \renewcommand{\figurename}{Zdjęcie}
+
+
+\title{Dokumentacja projektu\\ \textbf{FPGA Snake} {\small \\ z przedmiotu: Projektowanie Systemów Cyfrowych}}
+\author{Łukasz Przystupa}
+\date{\today}
+
+\usepackage{titling}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
+
+\begin{document}
+    \begin{titlepage}
+        \maketitle
+        \thispagestyle{empty}
+        \begin{center}
+            Opiekun projektu: Paweł Rajda
+        \end{center}
+    \end{titlepage}
+
+    % \input{Chapters/00_Wstep}\newpage
+    \input{Chapters/01_Założenia}
+    \input{Chapters/02_Funkcionalnosc}
+    \input{Chapters/03_OpisVGA.tex}
+    \input{Chapters/04_Schemat.tex}
+    \input{Chapters/05_Podsumowanie.tex}
+
+\end{document}

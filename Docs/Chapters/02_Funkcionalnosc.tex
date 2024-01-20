@@ -1,0 +1,81 @@
+\section{Opis funkcjonalny}
+    % zdjęcie układu
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.4\textwidth]{mimas.jpg}
+        \renewcommand{\figurename}{Zdjęcie}
+        \caption{Mimas -- płytka rozwojowa z układem Spartan 6}
+        \label{fig:mimas}
+    \end{figure}
+    Na powyższym zdjęciu \ref{fig:mimas} przedstawiono zdjęcie płytki na której przeprowadzono testy.
+    Głownym interfejsem komunikacyjnym są cztery przyciski podpisane prze producenta (licząc od dołu) SW1 do Sw4.
+    \begin{enumerate}
+        \item [SW4 -- ] reset wewnętrzny,
+        \item [SW3 -- ] przycisk sterowania - skręć w lewo,
+        \item [SW2 -- ] przycisk sterowania - skręć w prawo,
+        \item [SW1 -- ] reset główny.
+    \end{enumerate}
+% 
+    Nad przyciskami znajduje się pasek ośmiu ledów, które podczas gry wyświetlają animację sygnalizującą
+    pracę układu.
+
+    \subsection{Opis rozgrywki}
+        \tab Zasady gry są proste gracz jest głową żarłocznego węża 
+        i jego zadaniem jest tak kierować swoimi ruchami aby zjeść jak najwięcej czerwonych punktów.
+        Jednocześnie starając się nie uderzyć w żadną ze ścian planszy oraz nie zjeść samego siebie.
+        Dodatkowym utrudnieniem jest rozszerzanie się węża za każdym razem gdy zostanie zjedzony punkt.
+        % Rozszerzanie to odbywa się poprzez ruc
+
+        % \newpage
+        Zachowanie węża przedstawia prosta maszyna stanów:
+        \begin{figure}[!ht]
+            \centering
+            \begin{tikzpicture}
+                \draw
+                    ( 0,  0) node[draw, circle, align=center, minimum width = 2.5cm](start){Sprawdzenie\\kratki}
+                    ( 4, -2) node[draw, circle, align=center, minimum width = 2.5cm](head){Ruch\\głowy}
+                    ( 4, -6) node[draw, circle, align=center, minimum width = 2.5cm](capture){Zajęcie\\kratki}
+                    ( 0, -8) node[draw, circle, align=center, minimum width = 2.5cm](tail){Ruch\\ogona}
+                    (-4, -6) node[draw, circle, align=center, minimum width = 2.5cm](free){Zwolnienie\\kratki}
+                    (-4, -2) node[draw, circle, align=center, minimum width = 2.5cm](wait){Czekaj}
+
+                    ( 6,  0) node[draw, circle, align=center, minimum width = 1cm](reset){Reset}
+                ;
+                \draw [thick, -Straight Barb] (start)    edge[bend left] (head);
+                \draw [thick, -Straight Barb] (head)     edge[bend left] (capture);
+                \draw [thick, -Straight Barb] (capture)  edge[bend left] (tail);
+                \draw [thick, -Straight Barb] (capture)  edge[bend left] node[rotate = -25, above]{Dodaj punkt} (wait);
+                \draw [thick, -Straight Barb] (tail)     edge[bend left] (free);
+                \draw [thick, -Straight Barb] (free)     edge[bend left] (wait);
+                \draw [thick, -Straight Barb] (wait)     edge[bend left] (start);
+                % \draw [thick, -Straight Barb] (wait)     edge[loop left] (wait);
+                \draw [thick, -Straight Barb] (reset)     edge[bend right] (head);
+                \draw [thick, -Straight Barb] (start)    edge[bend left] node[rotate = 90, above]{Zniszcz się} (tail);
+                \draw [thick, -Straight Barb] (free)     edge[bend left] node[rotate =-25, above]{Zniszcz się} (tail);
+            \end{tikzpicture}
+
+            \renewcommand{\figurename}{Schemat}
+            \caption{Algorytm działania węża}
+            \label{schematic:snake}
+        \end{figure}
+        
+        Powyższy opis (schemat \ref*{schematic:snake}) należy rozbudowa o kilka słów komentarza,
+        \begin{enumerate}
+            \item Sprawdzenie kratki, sprawdza stan sprawdza nie tylko czy nie wystąpiła kolizja, ale także czy został zdobyty punkt. 
+            Na tej podstawie wystawiany jest specjalny, odpowiadający za dodanie punkt lub za samozniszczenie.
+            \item W momencie ruchu głowy na rejestrze FIFO, zapisywany jest kierunek ruchu, który po odczytaniu służy ogonowi za pamięć w jakim kierunku ma się poruszyć.
+            \item W trakcie samozniszczenia, powstaje pętla między, która traw do restartu procesu. Jednak ogon nie porusza się w nieskończoność a jedynie do momentu opróżnienia rejestru FIFO.
+            \item Zajęcie/zwolnienie kratki w rzeczywistości odbywa się w tym samym takcie zegarowym co ruch głowy/ogona, jednak ze względu na czytelność te operacje zostały wyróżnione.
+        \end{enumerate}
+
+        
+    \subsection{Generowanie punktów}
+        \tab Miejsce pojawienia się punktu na mapie jest 16 pseudolosową liczbą, z której górna połówka odpowiada za współrzędną $y$, natomiast dolna za współrzędną $x$.
+        Tak wygenerowane współrzędne następnie są porównywane z mapą i jeśli kratka o tych współrzędnych jest wolna, pojawia się punkt.
+
+    \subsection{Przegrana}
+        \tab Gracz kończy rozgrywkę w momencie zderzenia z samym sobą lub ze ścianą.
+        W chwili zderzenia, wyzwolone zostają sygnały sterujące animacją destrukcji
+        a wynik gracza zostaje zatrzaśnięty oraz wyświetlony na planszy.
+
+

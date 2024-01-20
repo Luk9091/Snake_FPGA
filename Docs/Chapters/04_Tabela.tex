@@ -1,0 +1,68 @@
+\subsection{Tabela wyprowadzeń}
+    \begin{table}[!ht]
+        \begin{tabularx}{\textwidth}{|l|c|c|X|}\hline
+            Nr. & Nazwa & kierunek & Opis\\\hline
+            \hline
+            \multicolumn{4}{|c|}{\textbf{Top}}\\\hline
+            1. & CLK                & in & wejście zegara modułu $100MHz$\\\hline
+            2. & Reset              & in & wejście głównego resetu -- przycisk pop prawej stronie modułu\\\hline
+            3. & SoftReset          & in & wejście resetu gry  -- przycisk pop lewej  stronie modułu\\\hline
+            4. & LED $\#8$          & out & wyprowadzenia do diod LED\\\hline
+            5. & H\_sync            & out & wyjście synchronizacji poziomej\\\hline
+            6. & V\_sync            & out & wyjście synchronizacji pionowej\\\hline
+            7. & RGB $\#3$          & out & wyjście koloru\\\hline
+            8. & leftRight $\#2$    & in & wejścia do przycisków sterujących\\\hline
+            \hline
+            \multicolumn{4}{|c|}{\textbf{Top $\rightarrow$ VGA}}\\\hline
+            1. & CLK    & in  & wejście zegara taktującego VGA $25MHz$\\\hline
+            2. & Reset  & in  & wejście resetu - połączone bezpośrednio do resetu głównego\\\hline
+            3. & V\_sync& out & wyjście synchronizacji poziomej generowanej w układzie \\\hline
+            4. & H\_sync& out & wyjście synchronizacji pionowej generowanej w układzie \\\hline
+            5. & RGB   $\#3$& out & wyjście koloru, będące iloczynem logicznym wejścia \textit{Color} i zezwolenia na wyświetlanie\\\hline
+            6. & Color $\#3$& in  & wejście koloru, podawane przez mapę\\\hline
+            7. & x $\#10$& out & wyjście wewnątrz układowe aktualnie wyświetlanej współrzędnej $x$ \\\hline
+            8. & y $\#9$& out & wyjście wewnątrz układowe aktualnie wyświetlanej współrzędnej $y$ \\\hline
+            \hline
+            \multicolumn{4}{|c|}{\textbf{Top $\rightarrow$ Map\_controler}}\\\hline
+            1. & CLK         & in  & wejście głównego zegara $100MHz$ \\\hline
+            2. & Reset       & in  & logiczny iloczyn zegara głównego i zegara gry\\\hline
+            3. & x $\#7$     & in  & główna współrzędna wyświetlanej kratki\\\hline
+            4. & sub\_x $\#4$& in  & $\frac{1}{16}$ współrzędnej $x$ do wyświetlania sprite'ów (nie używane)\\\hline
+            5. & y $\#6$     & in  & główna współrzędna wyświetlanej kratki\\\hline
+            6. & sub\_y $\#4$& in  & $\frac{1}{16}$ współrzędnej $y$ do wyświetlania sprite'ów (nie używane)\\\hline
+            7. & color $\#3$ & out & wyjście wyświetlanego koloru w odpowiedzi na podane współrzędne\\\hline
+            8. & leftRight$\#3$& in  & wejście sterujące wężem \\\hline
+            \hline
+            \multicolumn{4}{|c|}{\textbf{Top $\rightarrow$ Map\_controler $\rightarrow$ Snake}}\\\hline
+            1. & CLK         & in  & wejście głównego \\\hline
+            2. & Reset       & in  & logiczny iloczyn zegara głównego i zegara gry\\\hline
+            3. & x $\#7$     & in  & główna współrzędna wyświetlanej kratki\\\hline
+            4. & y $\#6$     & in  & główna współrzędna wyświetlanej kratki\\\hline
+            8. & leftRight$\#3$& in  & wejście sterujące wężem \\\hline
+            6. & Part $\#3$  & out & wyjście informujące o tym jaka część węża ma być wyświetlana \\\hline
+            7. & push        & in  & wejście logiki odpowiadającej za rozszerzenie się węża po zjedzeniu punktu \\\hline
+            8. & max\_size$\#13$& out & wyjście wyniku (długości węża) w czasie gry wartość jest równa 0 \\\hline
+        \end{tabularx}
+    \end{table}
+        \newpage
+    \begin{table}[!ht]
+        \begin{tabularx}{\textwidth}{|l|c|c|X|}\hline
+            \multicolumn{4}{|c|}{\textbf{Top $\rightarrow$ Map\_controler $\rightarrow$ Apple\_generator}}\\\hline
+            1. & CLK         & in  & wejście głównego \\\hline
+            2. & Reset       & in  & logiczny iloczyn zegara głównego i zegara gry\\\hline
+            3. & CanDraw     & in  & wejście blokujące w przypadku, gdy dana kratka jest zajęta\\\hline
+            3. & x $\#7$     & in  & główna współrzędna wyświetlanej kratki\\\hline
+            4. & y $\#6$     & in  & główna współrzędna wyświetlanej kratki\\\hline
+            5. & apple       & out & wyjście koloru punkt, w momencie gdy VGA, zapyta o współrzędną $xy$, sygnał ustawiana jest na wysoki\\\hline
+            6. & done        & out & wyjście informujące o tym, że punkt jest generowany i ma ustawione współrzędne\\\hline
+            \hline
+            \multicolumn{4}{|c|}{\textbf{Top $\rightarrow$ Map\_controler $\rightarrow$ Print\_digit}}\\\hline
+            1. & CLK         & in  & wejście głównego \\\hline
+            2. & Reset       & in  & logiczny iloczyn zegara głównego i zegara gry\\\hline
+            3. & x $\#7$     & in  & główna współrzędna wyświetlanej kratki\\\hline
+            4. & y $\#6$     & in  & główna współrzędna wyświetlanej kratki\\\hline
+            5. & Data $\#13$ & in  & wejście wyniku, podawane w momencie przegranej\\\hline
+            6. & Draw        & out & wyjście koloru, w momencie gdy VGA poda współrzędne danego punktu, sygnał draw wystawi informację czy kratka ma być zapełniona czy nie\\\hline
+        \end{tabularx}
+        \caption{Zawartość modułu}
+    \end{table}

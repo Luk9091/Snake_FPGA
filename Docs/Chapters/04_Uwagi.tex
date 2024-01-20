@@ -1,0 +1,33 @@
+\subsection{Dodatkowe pliki}
+    \subsection{Pamięci węża i mapy}
+        \tab Wąż wyposażony jest w dwie pamięci:
+        \begin{enumerate}
+            \item 1 bitowa pamięć RAM -- o wymiarach równych wymiarom mapy, w której przechowywane są poszczególne segmenty węża,
+            \item 2 bitowy rejestr FIFO -- o głębokości równej iloczynowi wymiarów mapy ($\text{deeph} = x\cdot y$).
+        \end{enumerate}
+        Oba te moduły zostały wygenerowane przez środowisko jako IP Core.
+    \subsubsection{Generator pseudolosowy}
+        \tab Generator liczb pseudolosowych zastosowany w projekcie to prosty 16 bitowy scrambler.
+        Rozwiązania równań zostały wzięte z dokumentu PDF, przygotowanego przez Xilinx'a.
+        Rozdzielczość scramblera pozwala na dość dokładną emulację wartości losowej.
+
+        16 bitowa rozdzielczość, pozwala na pokrycie dużo większej przestrzeni niż cała mapa.
+        Dlatego, wartości odczytywane z scramblera, zostały podzielone w taki sposób, że:
+        \begin{align}
+            \text{starsza połówka}\ modulo(\text{szerokość mapy}) \Rightarrow x \\
+            \text{młodsza połówka}\ modulo(\text{wysokość mapy}) \Rightarrow y 
+        \end{align}
+    \newpage
+    \subsubsection{Wyświetlanie wyniku}
+        \tab Wynik odczytywany odczytywany jest z licznika wbudowanego w rejestr FIFO
+        i przekazywany do modułów zamieniających Naturalny Kod Binarny $(NKB)$ w kod $BCD_{10}$, zgodnie z wzorem:
+        \begin{align}
+            &\text{Ones} &=& &\frac{Data}{1}\ modulo(10) \\
+            &\text{Tens} &=& &\frac{Data}{10}\ modulo(10) \\
+            &\text{Hundreds} &=& &\frac{Data}{100}\ modulo(10) \\
+            &\text{Thousands} &=& &\frac{Data}{1000}\ modulo(10)
+        \end{align}
+
+        Następnie z uprzednio zaprogramowanej pamięci ROM (również stworzonej jako IP Core),
+        odczytywane są wartości, poszczególnych kratek w zależności dla każdej liczby, a ich wartość (kolor wyświetlany) przekazywana jest do układu sterującego \textit{VGA}.
+    % \subsubsection{}
